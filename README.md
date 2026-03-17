@@ -23,7 +23,8 @@ MindGrow is a single-page React application scaffolded with [Vite](https://vitej
 - **Deployment**: Currrently configured for continuous delivery on [Vercel](https://vercel.com/).
 
 ### File Structure Overview
-```bash
+
+```text
 mindgrow/
 ├── app/
 │   ├── (auth)/
