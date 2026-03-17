@@ -23,8 +23,8 @@ MindGrow is a single-page React application scaffolded with [Vite](https://vitej
 - **Deployment**: Currrently configured for continuous delivery on [Vercel](https://vercel.com/).
 
 ### File Structure Overview
-
-`mindgrow
+```text
+mindgrow/
 ├── app/
 │   ├── (auth)/
 │   │   ├── login/page.tsx
@@ -51,7 +51,8 @@ MindGrow is a single-page React application scaffolded with [Vite](https://vitej
 │   ├── anthropic.ts                ← Claude client setup
 │   ├── db.ts                       ← Supabase client
 │   └── scoring.ts                  ← Test scoring algorithm
-└── tailwind.config.ts`
+└── tailwind.config.ts
+```
 
 ### App Structure Description
 - `src/App.jsx`
