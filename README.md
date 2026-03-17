@@ -23,6 +23,37 @@ MindGrow is a single-page React application scaffolded with [Vite](https://vitej
 - **Deployment**: Configured for continuous delivery on [Vercel](https://vercel.com/).
 
 ### File Structure Overview
+
+mindgrow/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/page.tsx
+│   │   └── signup/page.tsx
+│   ├── dashboard/page.tsx
+│   ├── train/
+│   │   ├── page.tsx
+│   │   └── [exerciseId]/page.tsx
+│   ├── test/
+│   │   ├── page.tsx
+│   │   └── results/page.tsx
+│   ├── resources/page.tsx
+│   ├── profile/page.tsx
+│   └── api/
+│       ├── feedback/route.ts       ← Claude API call
+│       ├── generate-exercises/route.ts
+│       └── test-results/route.ts
+├── components/
+│   ├── ui/                         ← Buttons, cards, badges
+│   ├── exercises/                  ← ExerciseCard, ExerciseFeed
+│   ├── charts/                     ← RadarChart, StreakCalendar
+│   └── test/                       ← QuestionCard, ProgressBar
+├── lib/
+│   ├── anthropic.ts                ← Claude client setup
+│   ├── db.ts                       ← Supabase client
+│   └── scoring.ts                  ← Test scoring algorithm
+└── tailwind.config.ts
+
+### App Structure Description
 - `src/App.jsx`
   The core of the application housing all logic and UI components:
   - **Data Definitions (`SKILL_META`, `TEST_QUESTIONS`, `EXERCISES`, `RESOURCES_DATA`)**: Static content powering the test, exercises, and library.
