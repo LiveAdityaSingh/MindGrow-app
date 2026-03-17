@@ -20,7 +20,7 @@ MindGrow is a single-page React application scaffolded with [Vite](https://vitej
 - **Data Visualization**: Recharts (for the Skill Radar displaying profile stats).
 - **AI Integration**: Direct integration with Anthropic's Claude API to provide context-aware feedback for interpersonal exercises.
 - **State Management**: React Hooks (`useState`, `useEffect`) and `localStorage` to persist the onboarding state.
-- **Deployment**: Configured for continuous delivery on [Vercel](https://vercel.com/).
+- **Deployment**: Currrently configured for continuous delivery on [Vercel](https://vercel.com/).
 
 ### File Structure Overview
 
