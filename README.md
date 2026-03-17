@@ -1,16 +1,56 @@
-# React + Vite
+# MindGrow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MindGrow is a personal mental wellbeing and interpersonal skills coach built as a Progressive Web Application (PWA). It is designed to map out users' strengths and growth areas via a personality test, provide daily bite-sized training exercises, and track progress over time.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- **Interpersonal Skills Assessment**: A 20-question test evaluating 6 key areas: Humour, Empathy, Conflict Resolution, Listening, Assertiveness, and Warmth.
+- **Personalized Training**: Real-world scenarios with instant AI-driven feedback utilizing Anthropic's Claude.
+- **Skill Radar & Tracking**: Visual tracking of user progress through Recharts radar charts.
+- **Resource Library**: Curated recommendations for books and TED talks tailored to specific interpersonal skills.
+- **Progressive Web App**: Installable locally with a custom minimalistic brain logo and dark-styled bottom navigation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🏗️ Architecture
 
-## React Compiler
+MindGrow is a single-page React application scaffolded with [Vite](https://vitejs.dev/).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Tech Stack
+- **Framework**: React 18
+- **Build Tool**: Vite
+- **Styling**: Vanilla CSS with custom inline React styles and the 'Inter' web font.
+- **Data Visualization**: Recharts (for the Skill Radar displaying profile stats).
+- **AI Integration**: Direct integration with Anthropic's Claude API to provide context-aware feedback for interpersonal exercises.
+- **State Management**: React Hooks (`useState`, `useEffect`) and `localStorage` to persist the onboarding state.
+- **Deployment**: Configured for continuous delivery on [Vercel](https://vercel.com/).
 
-## Expanding the ESLint configuration
+### File Structure Overview
+- `src/App.jsx`
+  The core of the application housing all logic and UI components:
+  - **Data Definitions (`SKILL_META`, `TEST_QUESTIONS`, `EXERCISES`, `RESOURCES_DATA`)**: Static content powering the test, exercises, and library.
+  - **Screens**:
+    - `HomeScreen`: Shows daily streak, top 3 weakest skills to train, and overall snapshot.
+    - `TestScreen`: The 20-question interpersonal skills assessment.
+    - `ResultsScreen`: Displays the comprehensive skill radar and focus areas.
+    - `TrainScreen`: The hub to pick exercises across different categories.
+    - `ExerciseScreen`: Interactive scenarios where users choose the best response and receive AI feedback on their choice.
+    - `ProfileScreen`: Shows user achievements, general scores, and full skill radar.
+    - `ResourcesScreen`: A curated list of books and videos for further learning.
+    - `OnboardingScreen`: Introduction to the app with the ability to bypass if previously seen.
+  - **Routing/Navigation**: Handled via simple state management (`screen`, `prevScreen`) and a custom `BottomNav` component.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Local Development
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+2. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+3. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+## 🧠 Design Philosophy
+The UI relies heavily on a clean, modern aesthetic utilizing glassmorphism-inspired transparency, warm dynamic colors assigned to individual skills, scalable vector graphics (SVG) for the primary brain icon, and responsive layouts capable of running seamlessly on both mobile devices and desktops.
