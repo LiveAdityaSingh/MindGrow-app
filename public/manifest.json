@@ -1,0 +1,17 @@
+{
+  "name": "MindGrow",
+  "short_name": "MindGrow",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F8F7FF",
+  "theme_color": "#6366F1",
+  "description": "Your personal coach for mental wellbeing and interpersonal skills. Science-backed, AI-powered.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
