@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Tooltip } from "recharts";
 
 // ─────────────────────────────────────────────
@@ -204,33 +204,50 @@ const EXERCISES = {
 
 const RESOURCES_DATA = {
   Humour:[
-    {type:"book",title:"The Comic Toolbox",author:"John Vorhaus",desc:"Practical guide to writing and speaking with comic timing and confidence."},
-    {type:"book",title:"Born Standing Up",author:"Steve Martin",desc:"A memoir about developing stage presence, wit, and authentic performance."},
-    {type:"video",title:"The surprising secret to speaking with confidence",source:"TED Talk · Caroline Goyder",desc:"Using playfulness and breath to manage nerves and connect with any audience."},
-    {type:"video",title:"What makes something funny?",source:"YouTube · Vsauce",desc:"A deep dive into the psychology and mechanics behind why we laugh."},
+    {type:"book",title:"The Comic Toolbox",author:"John Vorhaus",desc:"Practical guide to writing and speaking with comic timing and confidence.",
+     url:"https://www.google.com/search?q=The+Comic+Toolbox+John+Vorhaus+book"},
+    {type:"book",title:"Born Standing Up",author:"Steve Martin",desc:"A memoir about developing stage presence, wit, and authentic performance.",
+     url:"https://www.google.com/search?q=Born+Standing+Up+Steve+Martin+book"},
+    {type:"video",title:"The surprising secret to speaking with confidence",source:"TED Talk · Caroline Goyder",desc:"Using playfulness and breath to manage nerves and connect with any audience.",
+     url:"https://www.ted.com/talks/caroline_goyder_the_surprising_secret_to_speaking_with_confidence"},
+    {type:"video",title:"What makes something funny?",source:"YouTube · Vsauce",desc:"A deep dive into the psychology and mechanics behind why we laugh.",
+     url:"https://www.youtube.com/results?search_query=vsauce+what+makes+something+funny"},
   ],
   Empathy:[
-    {type:"book",title:"Daring Greatly",author:"Brené Brown",desc:"How vulnerability is the foundation of courage, creativity, and real connection."},
-    {type:"book",title:"Nonviolent Communication",author:"Marshall Rosenberg",desc:"A revolutionary language framework for expressing and receiving empathy."},
-    {type:"video",title:"The Power of Vulnerability",source:"TED Talk · Brené Brown",desc:"One of the most-watched talks in TED history on human connection."},
+    {type:"book",title:"Daring Greatly",author:"Brené Brown",desc:"How vulnerability is the foundation of courage, creativity, and real connection.",
+     url:"https://www.google.com/search?q=Daring+Greatly+Brene+Brown+book"},
+    {type:"book",title:"Nonviolent Communication",author:"Marshall Rosenberg",desc:"A revolutionary language framework for expressing and receiving empathy.",
+     url:"https://www.google.com/search?q=Nonviolent+Communication+Marshall+Rosenberg+book"},
+    {type:"video",title:"The Power of Vulnerability",source:"TED Talk · Brené Brown",desc:"One of the most-watched talks in TED history on human connection.",
+     url:"https://www.ted.com/talks/brene_brown_the_power_of_vulnerability"},
   ],
   Conflict:[
-    {type:"book",title:"Crucial Conversations",author:"Patterson, Grenny et al.",desc:"Tools for talking when stakes are high and emotions run strong."},
-    {type:"book",title:"Never Split the Difference",author:"Chris Voss",desc:"FBI negotiation techniques that work brilliantly in everyday conflict."},
-    {type:"video",title:"How to have better political conversations",source:"TED Talk · Robb Willer",desc:"The surprising science of constructive disagreement across difference."},
+    {type:"book",title:"Crucial Conversations",author:"Patterson, Grenny et al.",desc:"Tools for talking when stakes are high and emotions run strong.",
+     url:"https://www.google.com/search?q=Crucial+Conversations+Patterson+Grenny+book"},
+    {type:"book",title:"Never Split the Difference",author:"Chris Voss",desc:"FBI negotiation techniques that work brilliantly in everyday conflict.",
+     url:"https://www.google.com/search?q=Never+Split+the+Difference+Chris+Voss+book"},
+    {type:"video",title:"How to have better political conversations",source:"TED Talk · Robb Willer",desc:"The surprising science of constructive disagreement across difference.",
+     url:"https://www.ted.com/talks/robb_willer_how_to_have_better_political_conversations"},
   ],
   Listening:[
-    {type:"book",title:"You're Not Listening",author:"Kate Murphy",desc:"Why we've lost the art of listening and why it matters more than ever."},
-    {type:"video",title:"10 ways to have a better conversation",source:"TED Talk · Celeste Headlee",desc:"Practical skills for active listening in everyday life from a radio host."},
+    {type:"book",title:"You're Not Listening",author:"Kate Murphy",desc:"Why we've lost the art of listening and why it matters more than ever.",
+     url:"https://www.google.com/search?q=You+are+Not+Listening+Kate+Murphy+book"},
+    {type:"video",title:"10 ways to have a better conversation",source:"TED Talk · Celeste Headlee",desc:"Practical skills for active listening in everyday life from a radio host.",
+     url:"https://www.ted.com/talks/celeste_headlee_10_ways_to_have_a_better_conversation"},
   ],
   Assertiveness:[
-    {type:"book",title:"The Assertiveness Workbook",author:"Randy Paterson",desc:"A compassionate step-by-step guide to finding and using your voice."},
-    {type:"book",title:"Set Boundaries, Find Peace",author:"Nedra Glennon Tawwab",desc:"A therapist's guide to reclaiming yourself through healthy boundaries."},
+    {type:"book",title:"The Assertiveness Workbook",author:"Randy Paterson",desc:"A compassionate step-by-step guide to finding and using your voice.",
+     url:"https://www.google.com/search?q=The+Assertiveness+Workbook+Randy+Paterson+book"},
+    {type:"book",title:"Set Boundaries, Find Peace",author:"Nedra Glennon Tawwab",desc:"A therapist's guide to reclaiming yourself through healthy boundaries.",
+     url:"https://www.google.com/search?q=Set+Boundaries+Find+Peace+Nedra+Tawwab+book"},
   ],
   Warmth:[
-    {type:"book",title:"How to Win Friends and Influence People",author:"Dale Carnegie",desc:"The timeless classic guide to building genuine human relationships."},
-    {type:"book",title:"The Art of Connection",author:"Michael J. Gelb",desc:"Seven relationship-building skills every leader needs to succeed."},
-    {type:"video",title:"The art of being alone",source:"YouTube · Aperture",desc:"Understanding your relationship with yourself as the root of warmth toward others."},
+    {type:"book",title:"How to Win Friends and Influence People",author:"Dale Carnegie",desc:"The timeless classic guide to building genuine human relationships.",
+     url:"https://www.google.com/search?q=How+to+Win+Friends+and+Influence+People+Dale+Carnegie+book"},
+    {type:"book",title:"The Art of Connection",author:"Michael J. Gelb",desc:"Seven relationship-building skills every leader needs to succeed.",
+     url:"https://www.google.com/search?q=The+Art+of+Connection+Michael+Gelb+book"},
+    {type:"video",title:"The art of being alone",source:"YouTube · Aperture",desc:"Understanding your relationship with yourself as the root of warmth toward others.",
+     url:"https://www.youtube.com/results?search_query=aperture+the+art+of+being+alone"},
   ],
 };
 
@@ -275,21 +292,32 @@ function LevelBadge({ level }) {
 // ─────────────────────────────────────────────
 // SCREEN: HOME
 // ─────────────────────────────────────────────
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour >= 5 && hour < 12)  return "Good Morning! ☀️";
+  if (hour >= 12 && hour < 17) return "Good Afternoon! 👋";
+  if (hour >= 17 && hour < 21) return "Good Evening! 🌆";
+  return "Good Night! 🌙";
+}
+
 function HomeScreen({ scores, completed, streak, onNavigate, onStartExercise }) {
-  const sorted = Object.entries(scores).sort(([,a],[,b]) => a - b);
+  const hasScores = scores !== null;
+  const sorted = hasScores ? Object.entries(scores).sort(([,a],[,b]) => a - b) : [];
   const weakest = sorted.slice(0, 3);
-  
-  const todayExercises = weakest.map(([skill]) => {
-    const exList = EXERCISES[skill] || [];
-    return exList.find(e => !completed.has(e.id)) || exList[0];
-  }).filter(Boolean);
+
+  const todayExercises = hasScores
+    ? weakest.map(([skill]) => {
+        const exList = EXERCISES[skill] || [];
+        return exList.find(e => !completed.has(e.id)) || exList[0];
+      }).filter(Boolean)
+    : Object.values(EXERCISES).flat().filter(e => !completed.has(e.id)).slice(0, 3);
 
   return (
     <div style={{paddingBottom:80}}>
       {/* Header */}
       <div style={{background:"linear-gradient(135deg,#6366F1 0%,#8B5CF6 100%)",padding:"48px 24px 32px",borderBottomLeftRadius:28,borderBottomRightRadius:28}}>
-        <p style={{color:"rgba(255,255,255,0.75)",fontSize:14,marginBottom:4}}>Good morning 👋</p>
-        <h1 style={{color:"#fff",fontSize:26,fontWeight:700,margin:"0 0 20px"}}>Ready to grow today?</h1>
+        <p style={{color:"rgba(255,255,255,0.75)",fontSize:14,marginBottom:4}}>{getGreeting()}</p>
+        <h1 style={{color:"#fff",fontSize:26,fontWeight:700,margin:"0 0 20px"}}>{hasScores ? "Ready to grow today?" : "Let's get to know you"}</h1>
         {/* Streak */}
         <div style={{background:"rgba(255,255,255,0.18)",borderRadius:16,padding:"12px 16px",display:"flex",alignItems:"center",gap:12}}>
           <div style={{width:40,height:40,background:"rgba(255,255,255,0.2)",borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20}}>⚡</div>
@@ -298,33 +326,49 @@ function HomeScreen({ scores, completed, streak, onNavigate, onStartExercise }) 
             <p style={{color:"rgba(255,255,255,0.7)",fontSize:12,margin:0}}>{completed.size} exercises completed total</p>
           </div>
           <div style={{marginLeft:"auto",background:"rgba(255,255,255,0.2)",borderRadius:10,padding:"6px 12px",cursor:"pointer"}} onClick={() => onNavigate("test")}>
-            <span style={{color:"#fff",fontSize:12,fontWeight:600}}>Retake test →</span>
+            <span style={{color:"#fff",fontSize:12,fontWeight:600}}>{hasScores ? "Retake test →" : "Take test →"}</span>
           </div>
         </div>
       </div>
 
       <div style={{padding:"24px 20px"}}>
-        {/* Skill summary */}
-        <h2 style={{fontSize:16,fontWeight:700,color:"#1E1B4B",margin:"0 0 14px"}}>Your skill snapshot</h2>
-        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:28}}>
-          {Object.entries(scores).map(([skill, val]) => {
-            const m = SKILL_META[skill];
-            return (
-              <div key={skill} style={{background:"#fff",borderRadius:14,padding:"12px 10px",boxShadow:"0 1px 8px rgba(99,102,241,0.08)",border:"1px solid #F0EFFE",cursor:"pointer"}} onClick={() => onNavigate("train")}>
-                <div style={{fontSize:18,marginBottom:4}}>{m.emoji}</div>
-                <div style={{fontSize:10,color:"#6B7280",marginBottom:3,fontWeight:500}}>{skill}</div>
-                <div style={{fontSize:18,fontWeight:700,color:m.color}}>{val}%</div>
-                <div style={{background:"#F0EFFE",borderRadius:4,height:4,marginTop:5,overflow:"hidden"}}>
-                  <div style={{width:`${val}%`,height:4,background:m.color,borderRadius:4,transition:"width 0.8s ease"}}/>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Skill summary OR first-time CTA */}
+        {hasScores ? (
+          <>
+            <h2 style={{fontSize:16,fontWeight:700,color:"#1E1B4B",margin:"0 0 14px"}}>Your skill snapshot</h2>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:10,marginBottom:28}}>
+              {Object.entries(scores).map(([skill, val]) => {
+                const m = SKILL_META[skill];
+                return (
+                  <div key={skill} style={{background:"#fff",borderRadius:14,padding:"12px 10px",boxShadow:"0 1px 8px rgba(99,102,241,0.08)",border:"1px solid #F0EFFE",cursor:"pointer"}} onClick={() => onNavigate("train")}>
+                    <div style={{fontSize:18,marginBottom:4}}>{m.emoji}</div>
+                    <div style={{fontSize:10,color:"#6B7280",marginBottom:3,fontWeight:500}}>{skill}</div>
+                    <div style={{fontSize:18,fontWeight:700,color:m.color}}>{val}%</div>
+                    <div style={{background:"#F0EFFE",borderRadius:4,height:4,marginTop:5,overflow:"hidden"}}>
+                      <div style={{width:`${val}%`,height:4,background:m.color,borderRadius:4,transition:"width 0.8s ease"}}/>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <div
+            style={{background:"linear-gradient(135deg,#6366F1,#8B5CF6)",borderRadius:20,padding:"24px 20px",marginBottom:28,cursor:"pointer",boxShadow:"0 4px 20px rgba(99,102,241,0.3)"}}
+            onClick={() => onNavigate("test")}
+          >
+            <div style={{fontSize:36,marginBottom:12}}>🧬</div>
+            <h2 style={{color:"#fff",fontSize:18,fontWeight:700,margin:"0 0 8px"}}>Take your first assessment</h2>
+            <p style={{color:"rgba(255,255,255,0.82)",fontSize:14,margin:"0 0 16px",lineHeight:1.55}}>A 20-question test that maps your interpersonal strengths and growth areas across 6 skills.</p>
+            <div style={{background:"rgba(255,255,255,0.18)",borderRadius:12,padding:"10px 16px",display:"inline-flex",alignItems:"center",gap:8}}>
+              <span style={{color:"#fff",fontSize:14,fontWeight:700}}>Start assessment →</span>
+            </div>
+          </div>
+        )}
 
-        {/* Today's exercises */}
+        {/* Today's exercises / Explore exercises */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
-          <h2 style={{fontSize:16,fontWeight:700,color:"#1E1B4B",margin:0}}>Today's focus</h2>
+          <h2 style={{fontSize:16,fontWeight:700,color:"#1E1B4B",margin:0}}>{hasScores ? "Today's focus" : "Explore exercises"}</h2>
           <span style={{fontSize:12,color:"#6366F1",fontWeight:600,cursor:"pointer"}} onClick={() => onNavigate("train")}>See all →</span>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -573,7 +617,7 @@ function TrainScreen({ scores, completed, onStartExercise }) {
           <div style={{background:"#fff",borderRadius:14,padding:"14px 16px",boxShadow:"0 1px 8px rgba(99,102,241,0.06)"}}>
             <p style={{margin:0,fontSize:11,color:"#9CA3AF",fontWeight:500}}>Avg. score</p>
             <p style={{margin:"4px 0 0",fontSize:22,fontWeight:700,color:"#10B981"}}>
-              {Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.values(scores).length)}%
+              {scores ? Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/Object.values(scores).length) + "%" : "--"}
             </p>
           </div>
         </div>
@@ -622,10 +666,20 @@ function ExerciseScreen({ exercise, onComplete, onBack }) {
   const skill = Object.keys(EXERCISES).find(s => EXERCISES[s].find(e => e.id === exercise.id));
   const m = SKILL_META[skill];
 
+  // Shuffle options once per exercise load so the correct answer isn't always option B
+  const shuffledOptions = useMemo(() => {
+    const opts = [...exercise.options];
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    return opts;
+  }, [exercise.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
   async function handleSubmit() {
     if (selectedIdx === null) return;
     setSubmitted(true);
-    const chosen = exercise.options[selectedIdx];
+    const chosen = shuffledOptions[selectedIdx];
     setLoadingAI(true);
     try {
       const response = await fetch("https://api.anthropic.com/v1/messages", {
@@ -679,7 +733,7 @@ Give encouraging, specific, 2-3 sentence feedback. Explain WHY this response wor
 
         {/* Options */}
         <div style={{display:"flex",flexDirection:"column",gap:10,marginBottom:20}}>
-          {exercise.options.map((opt, i) => {
+          {shuffledOptions.map((opt, i) => {
             let bg = "#fff", border = "1.5px solid #E5E7EB", textColor = "#374151", fontW = 400;
             if (selectedIdx === i && !submitted) {
               bg = m.light; border = `2px solid ${m.color}`; textColor = m.dark; fontW = 600;
@@ -796,7 +850,28 @@ function ResourcesScreen() {
         </div>
 
         {resources.map((r, i) => (
-          <div key={i} style={{background:"#fff",borderRadius:16,padding:"16px",marginBottom:10,boxShadow:"0 1px 8px rgba(99,102,241,0.06)",display:"flex",gap:14,alignItems:"flex-start"}}>
+          <a
+            key={i}
+            href={r.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display:"flex", gap:14, alignItems:"flex-start",
+              background:"#fff", borderRadius:16, padding:"16px", marginBottom:10,
+              boxShadow:"0 1px 8px rgba(99,102,241,0.06)",
+              textDecoration:"none", cursor:"pointer",
+              border:"1.5px solid transparent",
+              transition:"box-shadow 0.18s ease, border-color 0.18s ease",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.boxShadow = "0 4px 20px rgba(99,102,241,0.15)";
+              e.currentTarget.style.borderColor = r.type==="book" ? "#C7D2FE" : "#FDE68A";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.boxShadow = "0 1px 8px rgba(99,102,241,0.06)";
+              e.currentTarget.style.borderColor = "transparent";
+            }}
+          >
             <div style={{
               width:44,height:44,borderRadius:12,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,
               background:r.type==="book"?"#EEF2FF":"#FEF3C7"
@@ -810,14 +885,21 @@ function ResourcesScreen() {
                   color:r.type==="book"?"#4338CA":"#92400E",
                   fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,textTransform:"uppercase"
                 }}>
-                  {r.type}
+                  {r.type === "book" ? "📖 Book" : "▶ Video"}
                 </span>
               </div>
               <p style={{margin:"0 0 3px",fontWeight:700,fontSize:14,color:"#1E1B4B"}}>{r.title}</p>
               <p style={{margin:"0 0 5px",fontSize:12,color:"#9CA3AF"}}>{r.author || r.source}</p>
               <p style={{margin:0,fontSize:13,color:"#6B7280",lineHeight:1.5}}>{r.desc}</p>
             </div>
-          </div>
+            {/* External link indicator */}
+            <div style={{
+              flexShrink:0, width:28, height:28, borderRadius:8, marginTop:2,
+              background: r.type==="book" ? "#EEF2FF" : "#FEF3C7",
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:13, color: r.type==="book" ? "#4338CA" : "#92400E",
+            }}>↗</div>
+          </a>
         ))}
       </div>
     </div>
@@ -828,6 +910,33 @@ function ResourcesScreen() {
 // SCREEN: PROFILE
 // ─────────────────────────────────────────────
 function ProfileScreen({ scores, streak, completed, onNavigate }) {
+  // If the user hasn't taken the test yet, show an empty state
+  if (!scores) {
+    return (
+      <div style={{background:"#F8F7FF",minHeight:"100vh",paddingBottom:80}}>
+        <div style={{background:"linear-gradient(135deg,#6366F1,#8B5CF6)",padding:"52px 24px 32px",borderBottomLeftRadius:28,borderBottomRightRadius:28}}>
+          <div style={{display:"flex",alignItems:"center",gap:16}}>
+            <div style={{width:56,height:56,background:"rgba(255,255,255,0.2)",color:"#fff",borderRadius:18,display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <BrainIcon size={28} />
+            </div>
+            <div>
+              <h1 style={{color:"#fff",fontSize:20,fontWeight:700,margin:"0 0 2px"}}>Your Profile</h1>
+              <p style={{color:"rgba(255,255,255,0.7)",fontSize:13,margin:0}}>No assessment taken yet</p>
+            </div>
+          </div>
+        </div>
+        <div style={{padding:"48px 24px",display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center"}}>
+          <div style={{fontSize:56,marginBottom:16}}>🧬</div>
+          <h2 style={{fontSize:20,fontWeight:700,color:"#1E1B4B",margin:"0 0 10px"}}>No data yet</h2>
+          <p style={{fontSize:15,color:"#6B7280",margin:"0 0 28px",lineHeight:1.6,maxWidth:280}}>Take the interpersonal skills assessment to unlock your profile, skill radar, and personalised training plan.</p>
+          <button onClick={() => onNavigate("test")} style={{padding:"16px 32px",background:"linear-gradient(135deg,#6366F1,#8B5CF6)",color:"#fff",border:"none",borderRadius:16,fontSize:15,fontWeight:700,cursor:"pointer"}}>
+            Take the assessment →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const radarData = Object.entries(scores).map(([skill, val]) => ({
     skill: skill.length > 5 ? skill.slice(0,4) + "." : skill,
     value: val,
@@ -1003,10 +1112,61 @@ export default function App() {
   const [onboarded, setOnboarded] = useState(() => localStorage.getItem("mindgrow_onboarded") === "true");
   const [screen, setScreen] = useState("home");
   const [prevScreen, setPrevScreen] = useState("home");
-  const [scores, setScores] = useState(DEFAULT_SCORES);
-  const [completed, setCompleted] = useState(new Set());
-  const [streak] = useState(7);
+
+  // Scores are null until the user completes the test for the first time
+  const [scores, setScores] = useState(() => {
+    const saved = localStorage.getItem("mindgrow_scores");
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  // Completed exercise IDs, persisted per device
+  const [completed, setCompleted] = useState(() => {
+    const saved = localStorage.getItem("mindgrow_completed");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+
+  // Daily streak, persisted per device
+  const [streak, setStreak] = useState(() => {
+    return parseInt(localStorage.getItem("mindgrow_streak") || "1", 10);
+  });
+
   const [currentExercise, setCurrentExercise] = useState(null);
+
+  // Persist scores whenever they change
+  useEffect(() => {
+    if (scores !== null) {
+      localStorage.setItem("mindgrow_scores", JSON.stringify(scores));
+    }
+  }, [scores]);
+
+  // Persist completed exercise IDs whenever they change
+  useEffect(() => {
+    localStorage.setItem("mindgrow_completed", JSON.stringify([...completed]));
+  }, [completed]);
+
+  // Track daily streak on each app open
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const lastVisit = localStorage.getItem("mindgrow_lastVisit");
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (!lastVisit) {
+      // First ever launch
+      setStreak(1);
+      localStorage.setItem("mindgrow_streak", "1");
+    } else if (lastVisit === today) {
+      // Already visited today — do nothing
+    } else if (lastVisit === yesterday) {
+      // Consecutive day — increment
+      const next = streak + 1;
+      setStreak(next);
+      localStorage.setItem("mindgrow_streak", String(next));
+    } else {
+      // Gap — reset streak
+      setStreak(1);
+      localStorage.setItem("mindgrow_streak", "1");
+    }
+    localStorage.setItem("mindgrow_lastVisit", today);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function navigate(s) {
     setPrevScreen(screen);
